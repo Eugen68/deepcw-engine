@@ -1,5 +1,6 @@
 import fs from "node:fs";
 import path from "node:path";
+import { pathToFileURL } from "node:url";
 import * as ort from "onnxruntime-node";
 
 const MIN_AUDIO_SECONDS = 5.0;
@@ -133,7 +134,7 @@ function selectedDftMagnitudes(frame, startBin, stopBin) {
   return output;
 }
 
-function audioToSpectrogram(audio, metadata) {
+export function audioToSpectrogram(audio, metadata) {
   const fftLength = metadata.fft_length;
   const hopLength = metadata.hop_length;
   const expectedBins = metadata.spectrogram_frequency_bins;
@@ -231,7 +232,9 @@ async function main() {
   console.log(decoded);
 }
 
-main().catch((error) => {
-  console.error(error);
-  process.exitCode = 1;
-});
+if (process.argv[1] && import.meta.url === pathToFileURL(path.resolve(process.argv[1])).href) {
+  main().catch((error) => {
+    console.error(error);
+    process.exitCode = 1;
+  });
+}

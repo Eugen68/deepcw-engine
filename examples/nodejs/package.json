@@ -4,7 +4,8 @@
   "private": true,
   "type": "module",
   "scripts": {
-    "decode": "node decode_morse.mjs"
+    "decode": "node decode_morse.mjs",
+    "stream": "node cw_stream.mjs"
   },
   "dependencies": {
     "onnxruntime-node": "^1.18.0"
